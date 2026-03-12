@@ -1,0 +1,34 @@
+# --- Entorno Virtual ---
+venv/
+ENV/
+env/
+.env
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# --- Django ---
+db.sqlite3
+db.sqlite3-journal
+static_root/        # Archivos que genera collectstatic
+media/              # Archivos subidos por usuarios (fotos, PDFs)
+
+# --- Base de datos (Local/MAMP) ---
+*.sql
+*.mysql
+
+# --- Sistema Operativo (macOS) ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
