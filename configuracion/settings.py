@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -230,6 +230,12 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 STATIC_URL = 'static/'
+
+# Esta es la línea que te falta:
+# Indica la carpeta donde se reunirán todos los estáticos para producción
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+
+# Asegúrate de tener también configurada la carpeta de origen de tus archivos
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
 ]
