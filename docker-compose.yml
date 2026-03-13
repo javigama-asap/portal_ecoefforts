@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    container_name: ecoefforts_app
+    volumes:
+      - .:/app
+      - ./staticfiles:/app/staticfiles
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=tu_clave_secreta_aqui
+      - ALLOWED_HOSTS=*
+    restart: always
