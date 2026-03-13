@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
+    'ajustes',
+    'logistica',
     'gestion_residuos',
 ]
 
@@ -126,22 +129,73 @@ JAZZMIN_SETTINGS = {
     "site_title": "EcoEfforts Admin",
     "site_header": "EcoEfforts",
     "site_brand": "EcoEfforts Logística",
-    "welcome_sign": "Bienvenido al Panel de Gestión de Transportes",
-    "copyright": "EcoEfforts Global Solution Ltd",
+    "welcome_sign": "Bienvenido al Panel de Gestión de EcoEfforts",
+    "copyright": "EcoEfforts",
     "user_avatar": None,
-    # Menú lateral
+    # Activa el buscador, paginación y ordenación dinámica en el cliente
+    "show_ui_builder": False, 
+    "changeform_format": "horizontal_tabs",
+    
+    # Esto es clave para que las tablas sean dinámicas
+    "use_google_fonts": True,
+    "navigation_expanded": False,  # Las secciones empiezan contraídas
+    
+    # --- MENÚ LATERAL TIPO ACORDEÓN ---
     "show_sidebar": True,
-    "navigation_expanded": True,
-    # Iconos para las secciones (usaremos Font Awesome)
+    "sidebar_nav_child_indent": True, # Activa la sangría para los modelos
+    
+    # Orden de las cabeceras principales
+    "order_with_respect_to": [
+        "auth",
+        "ajustes", 
+        "ajustes.DatosConfigurables", # Supongamos que quieres este el primero
+        "ajustes.Zona",
+        "ajustes.TipoResiduo",
+        "ajustes.TipoEnvase",
+        "ajustes.ConceptoFacturable",
+        "ajustes.Impuesto",
+        "ajustes.Periodicidad",
+        "ajustes.FechaPago",
+        "logistica",    
+        "logistica.cliente",
+        "logistica.subcliente",    
+        "logistica.puntorecogida",
+        "logistica.transportista",
+        "logistica.vehiculo",
+        "logistica.gestorresiduos",
+        "gestion_residuos",  
+    ],
     "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
+        "auth": "fas fa-shield",
+        "auth.user": "fas fa-user-shield",
+        "auth.group": "fas fa-users-cog",
+        "ajustes": "fas fa-cog",
+        "ajustes.zona": "fas fa-map-marker-alt",
+        "ajustes.fechapago": "fas fa-calendar-alt",
+        "ajustes.impuesto": "fas fa-percentage",
+        "ajustes.periodicidad": "fas fa-redo-alt",
+        "ajustes.conceptofacturable": "fas fa-tag",
+        "ajustes.tipoenvase": "fas fa-box",
+        "ajustes.tiporesiduo": "fas fa-recycle",
+        "ajustes.datosconfigurables": "fas fa-key",
+        "logistica": "fas fa-truck-loading",
+        "logistica.transportista": "fas fa-truck",
+        "logistica.vehiculo": "fas fa-shuttle-van",
+        "logistica.gestorresiduos": "fas fa-industry",
+        "logistica.cliente": "fas fa-briefcase",
+        "logistica.subcliente": "fas fa-users-cog",
+        "logistica.puntorecogida": "fas fa-user-tag",
+        "gestion_residuos": "fas fa-shuttle-van",
     },
+
     "model_aliases": {
         "auth.user": "Usuarios del Panel",
         "auth.group": "Roles",
     },
+
+    "custom_css": "css/custom_admin.css",
+    "custom_js": "js/cliente_admin.js",
+
 }
 
 # Opcional: Cambiar el tema de color a uno más moderno (estilo AdminLTE oscuro o claro)
@@ -149,3 +203,33 @@ JAZZMIN_UI_SETTINGS = {
     "theme": "flatly", # Temas: flatly, darkly, slate, lumen, etc.
     "dark_mode_theme": "darkly",
 }
+
+# Añadimos configuración de interfaz (UI Customizer) para que las tablas se vean mejor
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-dark-primary",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+}
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]

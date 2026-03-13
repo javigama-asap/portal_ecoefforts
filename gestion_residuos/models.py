@@ -1,4 +1,5 @@
 from django.db import models
+from configuracion.constantes import PROVINCIAS_CHOICES # Importación limpia
 from django.contrib.auth.models import User
 
 class Perfil(models.Model):
