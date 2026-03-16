@@ -25,8 +25,16 @@ SECRET_KEY = 'django-insecure-*16!d79tenqo_2k&2-br8l3p8)-3h-9e_%dj)t(0j(x@6&d!dg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['eco.developersasapglobalsolution.com', 'localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://eco.developersasapglobalsolution.com',
+    'http://eco.developersasapglobalsolution.com',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
 
 # Application definition
 
@@ -77,14 +85,21 @@ WSGI_APPLICATION = 'configuracion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'ecoefforts_db',   # Crea esta DB en phpMyAdmin de MAMP
+#         'USER': 'root',
+#         'PASSWORD': 'root',        # En MAMP la clave suele ser 'root'
+#         'HOST': '127.0.0.1',
+#         'PORT': '8889',            # Revisa en MAMP si usas 3306 u 8889
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ecoefforts_db',   # Crea esta DB en phpMyAdmin de MAMP
-        'USER': 'root',
-        'PASSWORD': 'root',        # En MAMP la clave suele ser 'root'
-        'HOST': '127.0.0.1',
-        'PORT': '8889',            # Revisa en MAMP si usas 3306 u 8889
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
