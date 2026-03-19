@@ -8,6 +8,11 @@
 /* 2. Reducir un poco el tamaño de los iconos y texto de los hijos para dar jerarquía */
 #jazzy-navigation .nav-treeview .nav-link {
     font-size: 0.85rem !important;
+    padding:0.5rem;
+}
+
+#jazzy-navigation .nav-treeview .nav-item {
+    margin-right:0;
 }
 
 #jazzy-navigation .nav-treeview .nav-icon {
@@ -15,24 +20,18 @@
     width: 1.2rem !important;
 }
 
-/* Opcional: añadir un pequeño guion o punto antes del texto */
-#jazzy-navigation .nav-treeview .nav-link::before {
-    content: "└ ";
-    margin-right: 5px;
-    color: #ccc;
-}
 input[type="text"], input[type="email"], input[type="number"], input[type="password"], select, textarea {
-    width: 100% !important;
+    width: 100%;
 }
 
 /* Forzar que el contenedor de Select2 ocupe todo el ancho */
 .select2-container {
-    width: 100% !important;
+    width: 100%;
     display: block;
 }
 
 /* Ajustar el diseño del cuadro de selección para que parezca un input */
-.select2-container--default .select2-selection--single {
+.select2-container--default .select2-selection--single, input[type="text"], input[type="email"], input[type="number"], input[type="password"] {
     height: calc(2.25rem + 2px) !important; /* Altura estándar de Bootstrap 4 / AdminLTE */
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
@@ -65,4 +64,87 @@ input[type="text"], input[type="email"], input[type="number"], input[type="passw
     border-color: #80bdff !important;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* 1. Ocultar el icono "+" verde redundante */
+.inline-related .original i.fa-plus.text-success {
+    display: none !important;
+}
+
+/* 2. Ajustar el diseño de la tabla para que no estire todo por igual */
+#lineas-group table {
+    table-layout: auto !important; /* Permite que las columnas se adapten al contenido */
+    width: 100%;
+}
+
+/* 3. Estilizar los campos numéricos (Cantidad y Precio) */
+input[id$="-cantidad"], 
+input[id$="-precio"] {
+    width: 100px !important; /* Ancho pequeño y fijo para números */
+    text-align: right;
+    padding-right: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    height: calc(2.25rem + 2px); /* Altura estándar de Bootstrap para igualar al select */
+}
+
+/* 4. Estilizar el selector de Concepto (Select2) */
+.field-concepto .select2-container {
+    min-width: 300px !important; /* El concepto necesita más espacio para leerse */
+}
+
+/* 5. Estilizar el campo de Notas */
+input[id$="-notas"] {
+    width: 100% !important;
+    min-width: 200px;
+}
+
+/* 6. Alinear verticalmente todos los elementos de la fila */
+#lineas-group td {
+    vertical-align: middle !important;
+}
+
+/* Transformar checkbox de Django en Switch de Bootstrap */
+.form-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 40px !important;
+    height: 20px !important;
+    background: #ccc;
+    border-radius: 20px !important;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
+    vertical-align: middle;
+}
+
+.form-group input[type="checkbox"]:checked {
+    background: #007bff; /* Color azul del tema principal */
+}
+
+.form-group input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    background: white;
+    transition: left 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.form-group input[type="checkbox"]:checked::before {
+    left: 22px;
+}
+
+/* Ajuste para que el switch no pegue con la etiqueta */
+.form-group .col-sm-9 input[type="checkbox"] {
+    margin-top: 10px;
+}
+
+div.form-group {
+    margin-bottom: 0 !important;
 }

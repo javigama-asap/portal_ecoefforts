@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .ajax import obtener_precio_ajax
+from operativa.views import exportar_albaran_pdf
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/admin/', permanent=True)),
+    path('admin/obtener-precio-ajax/', obtener_precio_ajax, name='obtener_precio_ajax'),
     path('admin/', admin.site.urls),
+    path('albaran/<int:albaran_id>/pdf/', exportar_albaran_pdf, name='albaran_pdf_download'),
 ]

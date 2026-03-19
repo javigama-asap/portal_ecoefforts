@@ -4,6 +4,7 @@ services:
     container_name: ecoefforts_app
     volumes:
       - .:/app
+      # Esto asegura que los archivos que genera collectstatic sean persistentes
       - ./staticfiles:/app/staticfiles
     ports:
       - "8000:8000"

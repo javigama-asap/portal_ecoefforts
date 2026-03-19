@@ -1,9 +1,11 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
+from logistica.admin import BaseAdmin
 from .models import Zona, FechaPago, Impuesto, Periodicidad, ConceptoFacturable, TipoEnvase, TipoResiduo, DatosConfigurables
 
 @admin.register(Zona)
-class ZonaAdmin(ImportExportModelAdmin):
+class ZonaAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('id', 'nombre', 'activo')
     list_editable = ('activo',)
     list_display_links = ('id', 'nombre')
@@ -13,7 +15,7 @@ class ZonaAdmin(ImportExportModelAdmin):
     ordering = ('id',)
 
 @admin.register(FechaPago)
-class FechaPagoAdmin(ImportExportModelAdmin):
+class FechaPagoAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('id', 'nombre', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('activo',)
@@ -23,7 +25,7 @@ class FechaPagoAdmin(ImportExportModelAdmin):
     ordering = ('id',)
 
 @admin.register(Impuesto)
-class ImpuestoAdmin(ImportExportModelAdmin):
+class ImpuestoAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('id', 'nombre', 'valor', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('valor', 'activo') # ¡También puedes editar el valor desde la tabla!
@@ -33,7 +35,7 @@ class ImpuestoAdmin(ImportExportModelAdmin):
     ordering = ('id',)
 
 @admin.register(Periodicidad)
-class PeriodicidadAdmin(ImportExportModelAdmin):
+class PeriodicidadAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('id', 'nombre', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('activo',)
@@ -42,18 +44,8 @@ class PeriodicidadAdmin(ImportExportModelAdmin):
     search_fields = ('nombre',)
     ordering = ('id',)
 
-@admin.register(ConceptoFacturable)
-class ConceptoFacturableAdmin(ImportExportModelAdmin):
-    list_display = ('id', 'nombre', 'precio_base', 'precio_adicional', 'activo')
-    list_display_links = ('id', 'nombre')
-    list_editable = ('precio_base', 'precio_adicional', 'activo')
-    # Ordenamos por ID de forma descendente para ver los nuevos arriba
-    ordering = ('id',)
-    search_fields = ('nombre',)
-    list_per_page = 10
-
 @admin.register(TipoEnvase)
-class TipoEnvaseAdmin(ImportExportModelAdmin):
+class TipoEnvaseAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('id', 'nombre', 'capacidad', 'precio', 'tipo', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('precio', 'tipo', 'activo') # Permite cambiar tipo y precio rápido
@@ -63,7 +55,7 @@ class TipoEnvaseAdmin(ImportExportModelAdmin):
     list_per_page = 10
 
 @admin.register(TipoResiduo)
-class TipoResiduoAdmin(ImportExportModelAdmin):
+class TipoResiduoAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('id', 'codigo_ler', 'nombre', 'precio_kg', 'activo')
     list_display_links = ('id', 'codigo_ler', 'nombre')
     list_editable = ('precio_kg', 'activo')
@@ -72,8 +64,30 @@ class TipoResiduoAdmin(ImportExportModelAdmin):
     search_fields = ('codigo_ler', 'nombre')
     list_per_page = 20
 
+@admin.register(ConceptoFacturable)
+class ConceptoFacturableAdmin(BaseAdmin):
+    list_display = ('nombre', 'tipo_concepto', 'precio_base', 'info_adicional', 'activo')
+    list_editable = ('activo',)
+    
+    fieldsets = (
+        ('Configuración Principal', {
+            'fields': ('nombre', 'tipo_concepto', 'envase', 'residuo')
+        }),
+        ('Valores Base', {
+            'fields': ('cantidad_base_incluida', 'precio_base')
+        }),
+        ('Información Extra', {
+            'fields': ('info_adicional', 'descripcion_adicional', 'cantidad_adicional', 'precio_adicional')
+        }),
+    )
+
+    class Media:
+        js = ('admin/js/conceptos_dinamicos.js',) # Crearemos este archivo
+
+
+
 @admin.register(DatosConfigurables)
-class DatosConfigurablesAdmin(ImportExportModelAdmin):
+class DatosConfigurablesAdmin(ImportExportModelAdmin, BaseAdmin):
     list_display = ('clave', 'valor')
     list_editable = ('valor',) # Permite cambiar el valor rápido desde la tabla
     search_fields = ('clave', 'valor')

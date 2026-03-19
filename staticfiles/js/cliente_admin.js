@@ -68,5 +68,6 @@
             setTimeout(actualizarInterfaz, 100);
         }
     });
-
 })();
+
+    

@@ -20,4 +20,4 @@ class GestionResiduosConfig(AppConfig):
 
         # Aquí sí es seguro porque el registro ya está cargado
         if apps.is_installed('django.contrib.auth'):
-            apps.get_app_config('auth').verbose_name = "SEGURIDAD Y ACCESOS"
+            apps.get_app_config('auth').verbose_name = "ACCESO"

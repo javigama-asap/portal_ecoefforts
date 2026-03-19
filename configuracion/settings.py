@@ -49,11 +49,13 @@ INSTALLED_APPS = [
     'import_export',
     'ajustes',
     'logistica',
+    'operativa',
     'gestion_residuos',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +69,7 @@ ROOT_URLCONF = 'configuracion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # Esto es vital
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,12 +98,41 @@ WSGI_APPLICATION = 'configuracion.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+db_path = os.environ.get('DATABASE_NAME', os.path.join(BASE_DIR, 'db.sqlite3'))
+
+DB_IN_PLESK = os.environ.get('DATABASE_URL_PLESK', False)
+
+if DB_IN_PLESK:
+    # CONFIGURACIÓN PLESK
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST', '172.17.0.1'),
+            'PORT': os.environ.get('DB_PORT', '3306'),
+        }
     }
-}
+else:
+    # CONFIGURACIÓN MAMP (LOCAL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'ecoefforts_panel',
+            'USER': 'root',
+            'PASSWORD': 'root', 
+            'HOST': '127.0.0.1',
+            'PORT': '8889',
+        }
+    }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': db_path,
+#     }
+#}
 
 
 # Password validation
@@ -141,9 +172,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 JAZZMIN_SETTINGS = {
-    "site_title": "EcoEfforts Admin",
+    "site_title": "EcoEfforts",
     "site_header": "EcoEfforts",
-    "site_brand": "EcoEfforts Logística",
+    "site_brand": " ",
+    "site_logo": "img/logo_ecoefforts.png",
+    "site_icon": "img/fav_ecoefforts.png",
+    "login_logo": "img/logo_ecoefforts.png",
     "welcome_sign": "Bienvenido al Panel de Gestión de EcoEfforts",
     "copyright": "EcoEfforts",
     "user_avatar": None,
@@ -152,7 +186,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format": "horizontal_tabs",
     
     # Esto es clave para que las tablas sean dinámicas
-    "use_google_fonts": True,
+    "use_google_fonts_cdn": True,
     "navigation_expanded": False,  # Las secciones empiezan contraídas
     
     # --- MENÚ LATERAL TIPO ACORDEÓN ---
@@ -178,6 +212,10 @@ JAZZMIN_SETTINGS = {
         "logistica.transportista",
         "logistica.vehiculo",
         "logistica.gestorresiduos",
+        "operativa",
+        "operativa.servicio",
+        "operativa.pedido",
+        "operativa.albaran",
         "gestion_residuos",  
     ],
     "icons": {
@@ -200,6 +238,10 @@ JAZZMIN_SETTINGS = {
         "logistica.cliente": "fas fa-briefcase",
         "logistica.subcliente": "fas fa-users-cog",
         "logistica.puntorecogida": "fas fa-user-tag",
+        "operativa": "fas fa-clipboard-list",
+        "operativa.servicio": "fas fa-concierge-bell",
+        "operativa.pedido": "fas fa-file-invoice",
+        "operativa.albaran": "fas fa-file-signature",
         "gestion_residuos": "fas fa-shuttle-van",
     },
 
@@ -213,11 +255,6 @@ JAZZMIN_SETTINGS = {
 
 }
 
-# Opcional: Cambiar el tema de color a uno más moderno (estilo AdminLTE oscuro o claro)
-JAZZMIN_UI_SETTINGS = {
-    "theme": "flatly", # Temas: flatly, darkly, slate, lumen, etc.
-    "dark_mode_theme": "darkly",
-}
 
 # Añadimos configuración de interfaz (UI Customizer) para que las tablas se vean mejor
 JAZZMIN_UI_TWEAKS = {
@@ -231,24 +268,33 @@ JAZZMIN_UI_TWEAKS = {
     "no_navbar_border": False,
     "navbar_fixed": True,
     "layout_boxed": False,
-    "footer_fixed": False,
+    "footer_fixed": True,
     "sidebar_fixed": True,
     "sidebar": "sidebar-dark-primary",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": True,
+    "sidebar_nav_child_indent": False,
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "default",
-    "dark_mode_theme": None,
+    "theme": "cosmo",
+    "default_theme_mode": "light",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
 }
 
-STATIC_URL = 'static/'
+# Asegúrate de que estas rutas sean correctas para Docker
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Esta es la línea que te falta:
-# Indica la carpeta donde se reunirán todos los estáticos para producción
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+# Habilita la compresión y el cacheo de WhiteNoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Asegúrate de tener también configurada la carpeta de origen de tus archivos
 STATICFILES_DIRS = [

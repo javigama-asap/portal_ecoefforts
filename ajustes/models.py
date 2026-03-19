@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.core.exceptions import ValidationError
 from configuracion.constantes import PROVINCIAS_CHOICES # Importación limpia
@@ -48,38 +49,6 @@ class Periodicidad(models.Model):
     def __str__(self):
         return self.nombre
     
-class ConceptoFacturable(models.Model):
-    nombre = models.CharField(max_length=150, verbose_name="Nombre del Concepto")
-    precio_base = models.DecimalField(max_digits=10, decimal_places=3, verbose_name="Precio Base (€)")
-    
-    # Estos campos siguen permitiendo null/blank a nivel de base de datos para que el clean() gestione la lógica
-    texto_adicional = models.CharField(max_length=255, verbose_name="Texto Adicional", null=True, blank=True)
-    precio_adicional = models.DecimalField(max_digits=10, decimal_places=3, verbose_name="Precio Adicional (€)", null=True, blank=True)
-    
-    activo = models.BooleanField(default=True, verbose_name="¿Activo?")
-
-    class Meta:
-        verbose_name = "Concepto Facturable"
-        verbose_name_plural = "Conceptos Facturables"
-
-    def clean(self):
-        # Ejecutamos la validación base
-        super().clean()
-
-        # Lógica: Si hay texto, el precio es obligatorio. Si hay precio, el texto es obligatorio.
-        if self.texto_adicional and self.precio_adicional is None:
-            raise ValidationError({
-                'precio_adicional': 'Si defines un texto adicional, debes asignar un precio adicional (aunque sea 0).'
-            })
-        
-        if self.precio_adicional is not None and not self.texto_adicional:
-            raise ValidationError({
-                'texto_adicional': 'Si defines un precio adicional, debes explicar qué es en el texto adicional.'
-            })
-
-    def __str__(self):
-        return self.nombre
-    
 class TipoEnvase(models.Model):
     # Definimos las opciones para el desplegable
     OPCIONES_TIPO = [
@@ -122,6 +91,58 @@ class TipoResiduo(models.Model):
 
     def __str__(self):
         return f"{self.codigo_ler} - {self.nombre}"
+    
+class ConceptoFacturable(models.Model):
+    TIPO_CHOICES = [
+        ('General', 'General'),
+        ('Envase', 'Envase'),
+        ('Residuo', 'Residuo'),
+    ]
+
+    nombre = models.CharField(max_length=150)
+    tipo_concepto = models.CharField(max_length=10, choices=TIPO_CHOICES, default='General')
+    
+    # Relaciones para los selectores (flexibles)
+    envase = models.ForeignKey(TipoEnvase, on_delete=models.SET_NULL, null=True, blank=True)
+    residuo = models.ForeignKey(TipoResiduo, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    # Datos base
+    cantidad_base_incluida = models.IntegerField(default=1, verbose_name="Cantidad incluida en el precio base (kg, envases, etc.)")
+    precio_base = models.DecimalField(max_digits=10, decimal_places=3, verbose_name="Precio del servicio base (€)")
+    
+    # Bloque Adicional
+    info_adicional = models.BooleanField(default=False, verbose_name="¿Tiene tarificación adicional?")
+    descripcion_adicional = models.CharField(max_length=255, null=True, blank=True, verbose_name="Descripción de la tarificación adicional")
+    cantidad_adicional = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Unidades por bloque adicional (kg, envases, etc.)")
+    precio_adicional = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True, verbose_name="Precio bloque adicional (€)")
+    
+    activo = models.BooleanField(default=True)
+
+    @property
+    def selector_concepto(self):
+        """Devuelve el objeto vinculado (Envase o Residuo) o None"""
+        if self.tipo_concepto == 'Envase':
+            return self.envase
+        if self.tipo_concepto == 'Residuo':
+            return self.residuo
+        return None
+
+    def clean(self):
+        super().clean()
+        
+        # Validación de Info Adicional
+        if self.info_adicional:
+            if not self.descripcion_adicional or self.cantidad_adicional is None or self.precio_adicional is None:
+                raise ValidationError("Si 'Info Adicional' es SÍ, los campos de descripción, cantidad y precio adicional son obligatorios.")
+        
+        # Validación de Selectores según tipo
+        if self.tipo_concepto == 'Envase' and not self.envase:
+            raise ValidationError({'envase': 'Debe seleccionar un envase para este tipo de concepto.'})
+        if self.tipo_concepto == 'Residuo' and not self.residuo:
+            raise ValidationError({'residuo': 'Debe seleccionar un residuo para este tipo de concepto.'})
+
+    def __str__(self):
+        return self.nombre
     
 class DatosConfigurables(models.Model):
     # Definimos 'clave' como clave primaria para que no cree el ID automático

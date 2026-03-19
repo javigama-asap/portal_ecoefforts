@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: a4;
+            margin: 1cm;
+        }
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 10px;
+            color: #222;
+        }
+
+        .header-table { width: 100%; margin-bottom: 30px; }
+        .logo { width: 190px; }
+        
+        .info-container, .footer-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .info-box { 
+            border: 1px solid #333; 
+            padding: 0; 
+            vertical-align: top; 
+        }
+        .box-title { 
+            background-color: #f0f0f0; 
+            font-weight: bold; 
+            padding: 8px,8px,0,8px; 
+            border-bottom: 1px solid #333;
+            display: block;
+        }
+        .box-content { padding: 8px,8px,0,8px;vertical-align:bottom;}
+
+        .residuos-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 30px;
+        }
+        .residuos-table th { 
+            background-color: #f0f0f0; 
+            border: 1px solid #333; 
+            padding: 8px,8px,0,8px; 
+            font-weight: bold;
+        }
+        .residuos-table td { 
+            border: 1px solid #333; 
+            padding: 5px,8px,0,5px;
+            height: 28px;
+        }
+    </style>
+</head>
+<body>
+
+    <table class="header-table">
+        <tr>
+            <td width="50%" style="vertical-align: top;">
+                {% load static %}
+                <img src="{% static 'img/logo_ecoefforts.png' %}" class="logo">
+            </td>
+            <td width="50%" style="text-align: right;">
+                <div style="border: 1px solid #000; padding: 8px,8px,0,8px; display: inline-block; text-align: right;">
+                    <p><strong>DOCUMENTO DE SERVICIO</strong></p>
+                    <p style="margin-bottom:10px"><strong >SERIE Nº {{ albaran.codigo }}</strong></p>
+                    <p><strong>FECHA EMISIÓN:</strong> {{ albaran.fecha_emision|date:"d/m/Y" }}</p>
+                    <p><strong>FECHA EJECUCIÓN:</strong> 
+                        <span style="font-size: 14px; font-weight: bold;">
+                            {{ albaran.fecha_ejecucion|date:"d/m/Y"|default:"___ / ___ / ______" }}
+                        </span>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="info-container">
+        <tr>
+            <td class="info-box" width="48%">
+                <span class="box-title">Operador</span>
+                <div class="box-content">
+                    <strong>{{ operador.nombre|upper }}</strong><br>
+                    {{ operador.direccion }}<br>
+                    {{ operador.localidad }}<br>
+                    <strong>CIF/NIF:</strong> {{ operador.cif }}
+                </div>
+            </td>
+            <td width="4%"></td>
+            <td class="info-box" width="48%">
+                <span class="box-title">Productor - Centro de Origen</span>
+                <div class="box-content">
+                    <strong>{{ punto.nombre|upper }}</strong><br>
+                    {{ punto.direccion }}, {{ punto.numero }}<br>
+                    {{ punto.cp }} {{ punto.localidad }} ({{ punto.provincia }})<br>
+                    <strong>CIF/NIF:</strong> {{ punto.cif }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="residuos-table">
+        <thead>
+            <tr>
+                <th width="30%">MATERIAL-RESIDUO</th>
+                <th width="5%">X</th>
+                <th width="10%">LER</th>
+                <th width="15%">CANTIDAD (kgs)</th>
+                <th width="40%">NOTAS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linea in lineas %}
+            <tr>
+                <td width="30%">{{ linea.concepto.nombre }}</td>
+                <td width="5%"></td>
+                <td width="10%">{{ linea.concepto.residuo.codigo_ler }}</td>
+                <td width="15%"><strong>{{ linea.cantidad_recogida|default:"" }}</strong></td>
+                <td width="40%">{{ linea.observaciones_recogida|default:"" }}</td>
+            </tr>
+            {% endfor %}
+            {% if lineas|length < 8 %}
+                {% for i in "12345" %}
+                <tr>
+                    <td width="30%"></td>
+                    <td width="5%"></td>
+                    <td width="10%"></td>
+                    <td width="15%"></td>
+                    <td width="40%"></td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <table width="100%" style="border-collapse: collapse;margin-bottom:30px;">
+        <tr>
+            <td style="border: 1px solid #000; vertical-align: top; padding: 0; height:120px">
+                <span style="background-color: #f0f0f0; display: block; padding: 8px,8px,0,8px; font-weight: bold; border-bottom: 1px solid #000;">
+                    OBSERVACIONES:
+                </span>
+                <div style="padding: 5px; font-size: 10px; line-height: 1.2;">
+                    {{ albaran.observaciones|default:"" }}
+                    {% if not albaran.observaciones %}
+                        <div style="border-bottom: 1px solid #eee; margin-top: 15px;"></div>
+                        <div style="border-bottom: 1px solid #eee; margin-top: 15px;"></div>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="footer-table">
+        <tr>
+            <td class="info-box" width="48%">
+                <span class="box-title">Recogida y Control</span>
+                <div class="box-content">
+                    {% if transportista %}
+                    <strong>{{ transportista.nombre|upper }}</strong><br>
+                    {{ transportista.direccion }}, {{ transportista.numero }}<br>
+                    {{ transportista.cp }} {{ transportista.localidad }} ({{ transportista.provincia }})<br>
+                    <strong>CIF:</strong> {{ transportista.cif_nif }}<br>
+                    <strong>NIMA:</strong> {{ transportista.nima }}<br>
+                    <strong>REG:</strong> {{ transportista.reg }}
+                    {% else %}
+                    <span style="color: #666;"><i>No hay transportista asignado.</i></span>
+                    {% endif %}
+                    <div style="border-top: 1px dashed #ccc;padding:8px,8px,0,8px;">
+                        <strong>MATRÍCULA DEL VEHICULO USADO:</strong> 
+                    </div>
+                </div>
+            </td>
+            <td width="4%"></td>
+            <td class="info-box" width="48%">
+                <span class="box-title">Destino</span>
+                <div class="box-content">
+                    {% if gestor %}
+                    <strong>{{ gestor.nombre|upper }}</strong><br>
+                    {{ gestor.direccion }}, {{ gestor.numero }}<br>
+                    {{ gestor.cp }} {{ gestor.localidad }} ({{ gestor.provincia }})<br>
+                    <strong>CIF/NIF:</strong> {{ gestor.cif_nif }}<br>
+                    <strong>NIMA:</strong> {{ gestor.nima }}<br>
+                    <strong>REG:</strong> {{ gestor.reg }}
+                {% else %}
+                    <span style="color: #666;"><i>No hay un gestor de residuos asignado al usuario.</i></span>
+                {% endif %}
+                    
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table width="100%" style="text-align: center; border-collapse: collapse;">
+        <tr>
+            <td width="45%" style="vertical-align: top;">
+                <div style="margin-bottom: 60px;">
+                    <strong>FIRMA Y SELLO (ORIGEN)</strong>
+                </div>
+                <div style="border-top: 1px solid #000; width: 80%; margin: 0 auto; padding-top: 5px;">
+                    <span style="font-size: 9px;">Fdo: {{ punto.nombre|upper }}</span>
+                </div>
+            </td>
+
+            <td width="10%"></td> <td width="45%" style="vertical-align: top;">
+                <div style="margin-bottom: 60px;">
+                    <strong>FIRMA Y SELLO (DESTINO)</strong>
+                </div>
+                <div style="border-top: 1px solid #000; width: 80%; margin: 0 auto; padding-top: 5px;">
+                    <span style="font-size: 9px;">Fdo: {{ gestor.nombre|upper }}</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

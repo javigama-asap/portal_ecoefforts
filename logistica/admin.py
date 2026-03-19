@@ -1,20 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from utils import BaseAdmin
 from .models import Transportista, Vehiculo, GestorResiduos, Cliente, Subcliente, PuntoRecogida
-
-class BaseAdmin(admin.ModelAdmin):
-    """Clase base para eliminar botones de relación en todo el Admin"""
-    
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        # Recorremos todos los campos del formulario automáticamente
-        for field_name, field in form.base_fields.items():
-            # Si el campo tiene un widget con botones de relación, los quitamos
-            if hasattr(field.widget, 'can_add_related'):
-                field.widget.can_add_related = False
-                field.widget.can_change_related = False
-                field.widget.can_delete_related = False
-        return form
 
 @admin.register(Transportista)
 class TransportistaAdmin(ImportExportModelAdmin, BaseAdmin):

@@ -1,0 +1,688 @@
+[
+    {
+        "model": "ajustes.zona",
+        "pk": 1,
+        "fields": {
+            "nombre": "Madrid",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.fechapago",
+        "pk": 1,
+        "fields": {
+            "nombre": "A la vista",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.fechapago",
+        "pk": 2,
+        "fields": {
+            "nombre": "30 días f/fra.",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.fechapago",
+        "pk": 3,
+        "fields": {
+            "nombre": "60 días f/fra",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.fechapago",
+        "pk": 4,
+        "fields": {
+            "nombre": "Confirming",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.fechapago",
+        "pk": 5,
+        "fields": {
+            "nombre": "Compensación",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.impuesto",
+        "pk": 1,
+        "fields": {
+            "nombre": "Servicios medioambientales",
+            "valor": "10.000",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.impuesto",
+        "pk": 2,
+        "fields": {
+            "nombre": "Venta de productos",
+            "valor": "21.000",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.impuesto",
+        "pk": 3,
+        "fields": {
+            "nombre": "Otro tipo de servicios",
+            "valor": "21.000",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 1,
+        "fields": {
+            "nombre": "A demanda",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 2,
+        "fields": {
+            "nombre": "Diario",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 3,
+        "fields": {
+            "nombre": "2 veces por semana",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 4,
+        "fields": {
+            "nombre": "3 veces por semana",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 5,
+        "fields": {
+            "nombre": "Semanal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 6,
+        "fields": {
+            "nombre": "Decenal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 7,
+        "fields": {
+            "nombre": "Quincenal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 8,
+        "fields": {
+            "nombre": "Bimensual",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 9,
+        "fields": {
+            "nombre": "Mensual",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 10,
+        "fields": {
+            "nombre": "Bimestral",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 11,
+        "fields": {
+            "nombre": "Trimestral",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 12,
+        "fields": {
+            "nombre": "Semestral",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.periodicidad",
+        "pk": 13,
+        "fields": {
+            "nombre": "Anual",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.conceptofacturable",
+        "pk": 1,
+        "fields": {
+            "nombre": "Desplazamiento y recogida",
+            "precio_base": "125.000",
+            "texto_adicional": null,
+            "precio_adicional": null,
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.conceptofacturable",
+        "pk": 2,
+        "fields": {
+            "nombre": "Desplazamiento y recogida hasta xxx kgs.",
+            "precio_base": "125.000",
+            "texto_adicional": "Por kg. adicional",
+            "precio_adicional": "0.200",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.conceptofacturable",
+        "pk": 3,
+        "fields": {
+            "nombre": "Preparación  - precio por hora o fracción",
+            "precio_base": "56.000",
+            "texto_adicional": null,
+            "precio_adicional": null,
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 1,
+        "fields": {
+            "nombre": "Caja 80 l. reciclaje",
+            "capacidad": "80",
+            "precio": "0.000",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 2,
+        "fields": {
+            "nombre": "Caja Ecobox 80 l. confidencial",
+            "capacidad": "80",
+            "precio": "0.000",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 3,
+        "fields": {
+            "nombre": "Caja 80 l. plásticos",
+            "capacidad": "80",
+            "precio": "0.000",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 4,
+        "fields": {
+            "nombre": "Caja 80 l. tóner",
+            "capacidad": "80",
+            "precio": "0.000",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 5,
+        "fields": {
+            "nombre": "Contenedor de pilas 10 l.",
+            "capacidad": "10",
+            "precio": "0.000",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 6,
+        "fields": {
+            "nombre": "Contenedor 60 l. polipropileno",
+            "capacidad": "60",
+            "precio": "6.750",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 7,
+        "fields": {
+            "nombre": "Contenedor 120 l. polipropileno",
+            "capacidad": "120",
+            "precio": "12.800",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 8,
+        "fields": {
+            "nombre": "Contenedor 240 l. polipropileno",
+            "capacidad": "240",
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 9,
+        "fields": {
+            "nombre": "Contenedor 360 l. polipropileno",
+            "capacidad": "360",
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 10,
+        "fields": {
+            "nombre": "Contenedor 800/1000 l. polipropileno",
+            "capacidad": "800",
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 11,
+        "fields": {
+            "nombre": "Jaula",
+            "capacidad": null,
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 12,
+        "fields": {
+            "nombre": "Big Bag",
+            "capacidad": null,
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 13,
+        "fields": {
+            "nombre": "GRG",
+            "capacidad": null,
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 14,
+        "fields": {
+            "nombre": "Contenedor 70 l. cerrado aluminio",
+            "capacidad": "70",
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 15,
+        "fields": {
+            "nombre": "Contenedor 120 l . cerrado aluminio",
+            "capacidad": "120",
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 16,
+        "fields": {
+            "nombre": "Contenedor 240 l . cerrado aluminio",
+            "capacidad": "240",
+            "precio": "18.300",
+            "tipo": "normal",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 17,
+        "fields": {
+            "nombre": "Contenedor 6/8 m3",
+            "capacidad": "6000-8000",
+            "precio": "18.300",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 18,
+        "fields": {
+            "nombre": "Contenedor 10 m3",
+            "capacidad": "10000",
+            "precio": "18.300",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 19,
+        "fields": {
+            "nombre": "Contenedor 15 m3",
+            "capacidad": "15000",
+            "precio": "18.300",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 20,
+        "fields": {
+            "nombre": "Contenedor 30 m3",
+            "capacidad": "30000",
+            "precio": "18.300",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 21,
+        "fields": {
+            "nombre": "Compactador estático 20 m3",
+            "capacidad": "20000",
+            "precio": "18.300",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 22,
+        "fields": {
+            "nombre": "Compactador estático 30 m3",
+            "capacidad": "30000",
+            "precio": "18.300",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tipoenvase",
+        "pk": 23,
+        "fields": {
+            "nombre": "Autocompactador 20 m2",
+            "capacidad": "20000",
+            "precio": "173.000",
+            "tipo": "especial",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.tiporesiduo",
+        "pk": 1,
+        "fields": {
+            "codigo_ler": "200101",
+            "nombre": "Papel y cartón",
+            "precio_kg": "0.220",
+            "activo": true
+        }
+    },
+    {
+        "model": "ajustes.datosconfigurables",
+        "pk": "IBAN EcoEfforts",
+        "fields": {
+            "valor": "ES86 0049 0363 9022 1025 1347"
+        }
+    },
+    {
+        "model": "logistica.transportista",
+        "pk": 1,
+        "fields": {
+            "codigo": "Codigo01",
+            "nombre": "ECOEFFORTS - EXECUTIVE EFFORTS, S.L.",
+            "cif_nif": "B87855912",
+            "direccion": "Puerto de Navacerrada",
+            "numero": "52A",
+            "localidad": "Móstoles",
+            "cp": "28935",
+            "provincia": "Madrid",
+            "email": "ecoefforts@ecoefforts.es",
+            "telefono": "999999997",
+            "nima": "2800104882",
+            "reg": "13T02A1800024774Q",
+            "ecoeffort": true,
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.transportista",
+        "pk": 2,
+        "fields": {
+            "codigo": "Codigo06",
+            "nombre": "DXP EQUIPO TÉCNICO, C.B.",
+            "cif_nif": "E45507126",
+            "direccion": "Plaza de Zocodover",
+            "numero": "7",
+            "localidad": "Toledo",
+            "cp": "45001",
+            "provincia": "Toledo",
+            "email": "ecoefforts@ecoefforts.es",
+            "telefono": "989989989",
+            "nima": "4570005218",
+            "reg": "08/CLM/RNP/TR/432",
+            "ecoeffort": true,
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.vehiculo",
+        "pk": 1,
+        "fields": {
+            "matricula": "3456ASD",
+            "transportista": 2,
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.gestorresiduos",
+        "pk": 1,
+        "fields": {
+            "codigo": "Codigo01",
+            "nombre": "ECOEFFORTS - EXECUTIVE EFFORTS, S.L.",
+            "cif_nif": "B87855912",
+            "direccion": "Puerto de Navacerrada",
+            "numero": "52A",
+            "localidad": "Móstoles",
+            "cp": "28935",
+            "provincia": "Madrid",
+            "email": "ecoefforts@ecoefforts.es",
+            "telefono": "656656656",
+            "nima": "2800104882",
+            "reg": "13T02A1800024774Q",
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.gestorresiduos",
+        "pk": 2,
+        "fields": {
+            "codigo": "Codigo02",
+            "nombre": "DXP EQUIPO TÉCNICO, C.B.",
+            "cif_nif": "E45507126",
+            "direccion": "Plaza de Zocodover",
+            "numero": "7",
+            "localidad": "Toledo",
+            "cp": "45001",
+            "provincia": "Toledo",
+            "email": "ecoefforts@ecoefforts.es",
+            "telefono": "545545545",
+            "nima": "4570005218",
+            "reg": "08/CLM/RNP/TR/432",
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.gestorresiduos",
+        "pk": 3,
+        "fields": {
+            "codigo": "Codigo03",
+            "nombre": "S. SOLIS, S.A.",
+            "cif_nif": "A78962594",
+            "direccion": "s/n",
+            "numero": "s/n",
+            "localidad": "Alcorcón",
+            "cp": "28924",
+            "provincia": "Madrid",
+            "email": "ecoefforts@ecoefforts.es",
+            "telefono": "767767767",
+            "nima": "2800029513",
+            "reg": "13G04A1400008132H",
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.cliente",
+        "pk": 1,
+        "fields": {
+            "codigo": "FEMA",
+            "razon_social": "FEMAREC, S.C.C.L.",
+            "cif": "F59197996",
+            "email_fiscal": "ecoefforts@ecoefforts.es",
+            "direccion_fiscal": "Torrent de l'Estadella",
+            "numero_fiscal": "46",
+            "localidad_fiscal": "Barcelona",
+            "cp_fiscal": "08034",
+            "provincia_fiscal": "Barcelona",
+            "observaciones_fiscal": "Att. Dpto. Administración",
+            "mismos_datos": true,
+            "email_facturacion": "ecoefforts@ecoefforts.es",
+            "direccion_facturacion": "Torrent de l'Estadella",
+            "numero_facturacion": "46",
+            "localidad_facturacion": "Barcelona",
+            "cp_facturacion": "08034",
+            "provincia_facturacion": "Barcelona",
+            "observaciones_facturacion": "Att. Dpto. Administración",
+            "iban": "ES86 0049 0363 9022 1025 1347",
+            "fecha_pago": 3,
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.cliente",
+        "pk": 2,
+        "fields": {
+            "codigo": "frfrf",
+            "razon_social": "frfr",
+            "cif": "frfrfr",
+            "email_fiscal": "javigama@yahoo.es",
+            "direccion_fiscal": "C/ Pedro Teixeira 10",
+            "numero_fiscal": "frfrf",
+            "localidad_fiscal": "Madrid",
+            "cp_fiscal": "rfrf",
+            "provincia_fiscal": "Madrid",
+            "observaciones_fiscal": "rfrf",
+            "mismos_datos": false,
+            "email_facturacion": "javigama@yahoo.es",
+            "direccion_facturacion": "C/ Pedro Teixeira 10E",
+            "numero_facturacion": "frfrf",
+            "localidad_facturacion": "Madrid",
+            "cp_facturacion": "rfrf",
+            "provincia_facturacion": "Madrid",
+            "observaciones_facturacion": "rfrf",
+            "iban": "rfrfrf",
+            "fecha_pago": 1,
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.subcliente",
+        "pk": 1,
+        "fields": {
+            "codigo": "GOPT",
+            "cliente": 1,
+            "razon_social": "GENERAL OPTICA, S.A.",
+            "cif": "A08119687",
+            "direccion": "Ctra. de Hospitalet",
+            "numero": "147",
+            "localidad": "Cornellá del Llobregat",
+            "cp": "08940",
+            "provincia": "Barcelona",
+            "contacto": "María Vilches",
+            "telefono1": "656656659",
+            "telefono2": "454454454",
+            "email": "ertama@yahoo.es",
+            "activo": true
+        }
+    },
+    {
+        "model": "logistica.puntorecogida",
+        "pk": 1,
+        "fields": {
+            "codigo": "GOPT0104",
+            "nombre": "GENERAL OPTICA, S.A.",
+            "cif": "A08119687",
+            "cliente": null,
+            "subcliente": 1,
+            "transportista": null,
+            "gestor": 3,
+            "direccion": "Avda. de Castilla",
+            "numero": "27",
+            "localidad": "San Fernando de Henaeres",
+            "cp": "28820",
+            "provincia": "Madrid",
+            "zona": 1,
+            "contacto": "Juan González",
+            "telefono1": "660 648 475",
+            "telefono2": null,
+            "email": "rfdert@yahoo.es",
+            "activo": true
+        }
+    }
+]

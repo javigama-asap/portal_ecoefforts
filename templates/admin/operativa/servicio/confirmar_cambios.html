@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div class="card card-warning">
+    <div class="card-header">
+        <h3 class="card-title">Atención: Cambios en la planificación</h3>
+    </div>
+    <form action="{% url 'admin:operativa_servicio_process_cambio' obj.pk %}" method="post">
+        {% csrf_token %}
+        <div class="card-body">
+            <p>Has realizado cambios en el servicio <strong>{{ obj }}</strong> que afectan a la planificación actual.</p>
+            <p>Hay <strong>{{ conteo }}</strong> pedidos pendientes programados.</p>
+            
+            <div class="alert alert-info">
+                <strong>¿Qué deseas hacer?</strong><br>
+                1. <strong>Sincronizar:</strong> Eliminará los pedidos que ya no encajan en la nueva periodicidad y creará los nuevos.<br>
+                2. <strong>Mantener:</strong> Guardará los cambios del servicio pero dejará los pedidos actuales tal como están.
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" name="accion" value="sincronizar" class="btn btn-primary">
+                <i class="fas fa-sync"></i> Sincronizar y Limpiar Pedidos
+            </button>
+            <button type="submit" name="accion" value="mantener" class="btn btn-default">
+                <i class="fas fa-archive"></i> Mantener pedidos actuales
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
