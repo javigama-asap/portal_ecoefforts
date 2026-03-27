@@ -39,7 +39,7 @@ USE_X_FORWARDED_PORT = True
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',  # <--- IMPORTANTE: Siempre antes que admin
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -180,9 +180,10 @@ JAZZMIN_SETTINGS = {
     "login_logo": "img/logo_ecoefforts.png",
     "welcome_sign": "Bienvenido al Panel de Gestión de EcoEfforts",
     "copyright": "EcoEfforts",
+    "show_version_in_footer": False, 
     "user_avatar": None,
     # Activa el buscador, paginación y ordenación dinámica en el cliente
-    "show_ui_builder": False, 
+    "show_ui_builder": True, 
     "changeform_format": "horizontal_tabs",
     
     # Esto es clave para que las tablas sean dinámicas
@@ -266,10 +267,10 @@ JAZZMIN_UI_TWEAKS = {
     "accent": "accent-primary",
     "navbar": "navbar-dark-primary",
     "no_navbar_border": False,
-    "navbar_fixed": True,
+    "navbar_fixed": False,
     "layout_boxed": False,
-    "footer_fixed": True,
-    "sidebar_fixed": True,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
     "sidebar": "sidebar-dark-primary",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
@@ -278,6 +279,7 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
     "theme": "cosmo",
+    "dark_mode_theme": None,
     "default_theme_mode": "light",
     "button_classes": {
         "primary": "btn-primary",
@@ -295,7 +297,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Habilita la compresión y el cacheo de WhiteNoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # Asegúrate de tener también configurada la carpeta de origen de tus archivos
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

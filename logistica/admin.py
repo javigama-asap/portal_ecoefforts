@@ -4,7 +4,7 @@ from utils import BaseAdmin
 from .models import Transportista, Vehiculo, GestorResiduos, Cliente, Subcliente, PuntoRecogida
 
 @admin.register(Transportista)
-class TransportistaAdmin(ImportExportModelAdmin, BaseAdmin):
+class TransportistaAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'codigo', 'nombre', 'localidad', 'ecoeffort', 'activo')
     list_display_links = ('id', 'codigo', 'nombre')
     list_editable = ('ecoeffort', 'activo')
@@ -14,7 +14,7 @@ class TransportistaAdmin(ImportExportModelAdmin, BaseAdmin):
     list_filter = ('ecoeffort', 'activo', 'provincia')
 
 @admin.register(Vehiculo)
-class VehiculoAdmin(ImportExportModelAdmin, BaseAdmin):
+class VehiculoAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'matricula', 'get_transportista_status', 'activo')
     list_filter = ('activo', 'transportista')
     search_fields = ('matricula',)
@@ -28,7 +28,7 @@ class VehiculoAdmin(ImportExportModelAdmin, BaseAdmin):
         return "⚠️ Sin Transportista"
     
 @admin.register(GestorResiduos)
-class GestorResiduosAdmin(ImportExportModelAdmin, BaseAdmin):
+class GestorResiduosAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'codigo', 'nombre', 'localidad', 'activo')
     list_display_links = ('id', 'codigo', 'nombre')
     list_editable = ('activo',)
@@ -37,7 +37,7 @@ class GestorResiduosAdmin(ImportExportModelAdmin, BaseAdmin):
     ordering = ('id',)
 
 @admin.register(Cliente)
-class ClienteAdmin(ImportExportModelAdmin, BaseAdmin):
+class ClienteAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'codigo', 'razon_social', 'cif', 'localidad_fiscal', 'activo')
     list_display_links = ('id', 'codigo', 'razon_social')
     list_editable = ('activo',)
@@ -73,7 +73,7 @@ class ClienteAdmin(ImportExportModelAdmin, BaseAdmin):
         js = ('js/cliente_admin.js',)
     
 @admin.register(Subcliente)
-class SubclienteAdmin(ImportExportModelAdmin, BaseAdmin):
+class SubclienteAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'codigo', 'razon_social', 'cliente', 'localidad', 'activo')
     list_filter = ('cliente', 'provincia', 'activo')
     search_fields = ('codigo', 'razon_social', 'cif', 'email')
@@ -95,7 +95,7 @@ class SubclienteAdmin(ImportExportModelAdmin, BaseAdmin):
     )
 
 @admin.register(PuntoRecogida)
-class PuntoRecogidaAdmin(ImportExportModelAdmin, BaseAdmin):
+class PuntoRecogidaAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('codigo', 'nombre', 'get_asignacion', 'localidad', 'zona', 'activo')
     list_filter = ('zona', 'provincia', 'activo', 'cliente')
     search_fields = ('codigo', 'nombre', 'cif', 'localidad')

@@ -2,12 +2,15 @@
 {% load i18n admin_urls %}
 
 {% block object-tools-items %}
-    <li>
         {% url 'albaran_pdf_download' original.pk as admin_url %}
-        <a href="{{ admin_url }}" class="historylink" target="_blank" 
+        <a class="btn w-100 btn-sm" href="{{ admin_url }}" class="historylink" target="_blank" 
            style="background-color: #447e9b; color: white; font-weight: bold;">
            🖨️ IMPRIMIR PDF
         </a>
-    </li>
+        {% url 'albaran_di_download' original.pk as di_url %}
+        <a class="btn w-100 btn-sm" href="{{ di_url }}" class="historylink" target="_blank" 
+           style="background-color: #28a745; color: white; font-weight: bold;">
+           📄 IMPRIMIR DI
+        </a>
     {{ block.super }}
 {% endblock %}

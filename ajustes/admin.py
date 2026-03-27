@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
-from logistica.admin import BaseAdmin
+from utils import BaseAdmin
 from .models import Zona, FechaPago, Impuesto, Periodicidad, ConceptoFacturable, TipoEnvase, TipoResiduo, DatosConfigurables
 
 @admin.register(Zona)
-class ZonaAdmin(ImportExportModelAdmin, BaseAdmin):
+class ZonaAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'nombre', 'activo')
     list_editable = ('activo',)
     list_display_links = ('id', 'nombre')
@@ -15,7 +15,7 @@ class ZonaAdmin(ImportExportModelAdmin, BaseAdmin):
     ordering = ('id',)
 
 @admin.register(FechaPago)
-class FechaPagoAdmin(ImportExportModelAdmin, BaseAdmin):
+class FechaPagoAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'nombre', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('activo',)
@@ -25,7 +25,7 @@ class FechaPagoAdmin(ImportExportModelAdmin, BaseAdmin):
     ordering = ('id',)
 
 @admin.register(Impuesto)
-class ImpuestoAdmin(ImportExportModelAdmin, BaseAdmin):
+class ImpuestoAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'nombre', 'valor', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('valor', 'activo') # ¡También puedes editar el valor desde la tabla!
@@ -35,7 +35,7 @@ class ImpuestoAdmin(ImportExportModelAdmin, BaseAdmin):
     ordering = ('id',)
 
 @admin.register(Periodicidad)
-class PeriodicidadAdmin(ImportExportModelAdmin, BaseAdmin):
+class PeriodicidadAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'nombre', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('activo',)
@@ -45,7 +45,7 @@ class PeriodicidadAdmin(ImportExportModelAdmin, BaseAdmin):
     ordering = ('id',)
 
 @admin.register(TipoEnvase)
-class TipoEnvaseAdmin(ImportExportModelAdmin, BaseAdmin):
+class TipoEnvaseAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'nombre', 'capacidad', 'precio', 'tipo', 'activo')
     list_display_links = ('id', 'nombre')
     list_editable = ('precio', 'tipo', 'activo') # Permite cambiar tipo y precio rápido
@@ -55,7 +55,7 @@ class TipoEnvaseAdmin(ImportExportModelAdmin, BaseAdmin):
     list_per_page = 10
 
 @admin.register(TipoResiduo)
-class TipoResiduoAdmin(ImportExportModelAdmin, BaseAdmin):
+class TipoResiduoAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'codigo_ler', 'nombre', 'precio_kg', 'activo')
     list_display_links = ('id', 'codigo_ler', 'nombre')
     list_editable = ('precio_kg', 'activo')
@@ -65,7 +65,7 @@ class TipoResiduoAdmin(ImportExportModelAdmin, BaseAdmin):
     list_per_page = 20
 
 @admin.register(ConceptoFacturable)
-class ConceptoFacturableAdmin(BaseAdmin):
+class ConceptoFacturableAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('nombre', 'tipo_concepto', 'precio_base', 'info_adicional', 'activo')
     list_editable = ('activo',)
     
@@ -87,7 +87,7 @@ class ConceptoFacturableAdmin(BaseAdmin):
 
 
 @admin.register(DatosConfigurables)
-class DatosConfigurablesAdmin(ImportExportModelAdmin, BaseAdmin):
+class DatosConfigurablesAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('clave', 'valor')
     list_editable = ('valor',) # Permite cambiar el valor rápido desde la tabla
     search_fields = ('clave', 'valor')

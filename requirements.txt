@@ -8,7 +8,7 @@ cryptography==46.0.5
 cssselect2==0.9.0
 diff-match-patch==20241021
 Django==6.0.3
-django-import-export==4.4.0
+# django-import-export==4.4.0
 django-jazzmin==3.0.3
 freetype-py==2.5.1
 gunicorn==25.1.0

@@ -70,3 +70,63 @@ def exportar_albaran_pdf(request, albaran_id):
         return HttpResponse('Error al generar el PDF', status=500)
     
     return response
+
+def exportar_di_pdf(request, albaran_id):
+    # 1. Reutilizas la lógica de obtención del objeto
+    albaran = get_object_or_404(Albaran, id=albaran_id)
+
+    pedido = albaran.pedido
+    punto_recogida = pedido.usuario
+
+    # Lógica para determinar el Operador
+    if punto_recogida.subcliente:
+        operador = punto_recogida.subcliente
+        datos_operador = {
+            'nombre': operador.razon_social,
+            'cif': operador.cif,
+            'direccion': f"{operador.direccion}, {operador.numero}",
+            'localidad': f"{operador.cp} {operador.localidad} ({operador.provincia})"
+        }
+    else:
+        operador = punto_recogida.cliente
+        datos_operador = {
+            'nombre': operador.razon_social,
+            'cif': operador.cif,
+            'direccion': f"{operador.direccion_fiscal}, {operador.numero_fiscal}",
+            'localidad': f"{operador.cp_fiscal} {operador.localidad_fiscal} ({operador.provincia_fiscal})"
+        }
+
+    gestor = punto_recogida.gestor
+    transportista = punto_recogida.transportista
+    
+    context = {
+        'albaran': albaran,
+        'pedido': albaran.pedido,
+        'punto': punto_recogida,
+        'operador': datos_operador,
+        'lineas': albaran.lineas_albaran.filter(concepto__tipo_concepto__iexact='Residuo'),
+        'vehiculo': albaran.vehiculo,
+        'gestor': gestor,
+        'transportista': transportista,
+        # Ya no necesitamos pasar logo_path manualmente si usamos {% static %} en el HTML
+    }
+    
+    # 2. Aquí es donde apuntas a la nueva plantilla que vas a retocar
+    template = get_template('pdf/di_template.html')
+    
+    html = template.render(context)
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="DI_{albaran.codigo}.pdf"'
+
+    # Convertir HTML a PDF con el link_callback
+    pisa_status = pisa.CreatePDF(
+        html, 
+        dest=response, 
+        link_callback=link_callback # <--- ESTO ES LA CLAVE
+    )
+    
+    if pisa_status.err:
+        return HttpResponse('Error al generar el PDF', status=500)
+    
+    return response

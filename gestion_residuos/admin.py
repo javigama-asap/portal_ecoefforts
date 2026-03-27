@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from utils import BaseInline
 from .models import Perfil
 
 # 1. Definimos cómo se ve el perfil dentro del usuario
-class PerfilInline(admin.StackedInline):
+class PerfilInline(BaseInline):
     model = Perfil
     can_delete = False
     verbose_name_plural = 'Información Adicional'

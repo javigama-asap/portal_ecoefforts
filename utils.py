@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from datetime import date, timedelta
+from django.utils.deprecation import MiddlewareMixin
 
 class BaseAdmin(admin.ModelAdmin):
     """Clase base para eliminar botones de relación en Modelos"""
@@ -101,3 +102,16 @@ class FiltroFechaCreacion(FechaRangoFilter):
 class FiltroFechaInicio(FechaRangoFilter):
     title = 'Fecha de inicio'
     parameter_name = 'fecha_inicio'
+
+class JazzminCSPMiddleware(MiddlewareMixin):
+    def process_response(self, request, response):
+        if request.path.startswith('/admin/'):
+            # Usamos .set() para asegurarnos de que sobrescribimos cualquier otra política
+            response.headers["Content-Security-Policy"] = (
+                "default-src 'self' *; "
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' *; "
+                "style-src 'self' 'unsafe-inline' *; "
+                "img-src 'self' data: *; "
+                "font-src 'self' data: *;"
+            )
+        return response

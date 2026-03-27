@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import path, reverse
 from import_export.admin import ImportExportModelAdmin
 from django.utils.html import format_html
+from gestion_residuos.models import Perfil
 from logistica.models import Vehiculo
 from .models import LineaPedido, Pedido, Servicio, LineaServicio, Albaran
 from utils import BaseAdmin, BaseInline, FiltroFechaProgramada, FiltroFechaInicio
@@ -18,7 +19,7 @@ class LineaServicioInline(BaseInline):
     fields = ('concepto', 'cantidad', 'precio', 'notas')
 
 @admin.register(Servicio)
-class ServicioAdmin(ImportExportModelAdmin, BaseAdmin):
+class ServicioAdmin(BaseAdmin, ImportExportModelAdmin):
     list_display = ('id', 'nombre', 'usuario', 'periodicidad', 'fecha_inicio', 'activo')
     list_display_links = ('id', 'nombre')
     ordering = ('-id',)
@@ -163,7 +164,7 @@ class LineaPedidoInline(BaseInline):
         }
 
 @admin.register(Pedido)
-class PedidoAdmin(ImportExportModelAdmin, BaseAdmin):
+class PedidoAdmin(BaseAdmin, ImportExportModelAdmin):
     list_filter = ('estado', FiltroFechaProgramada, 'usuario__nombre')
     search_fields = ('usuario__nombre', 'id')
     date_hierarchy = 'fecha_programada' # Barra de navegación temporal arriba
@@ -236,11 +237,20 @@ class AlbaranForm(forms.ModelForm):
         fields = '__all__'
 
 @admin.register(Albaran)
-class AlbaranAdmin(ImportExportModelAdmin, BaseAdmin):
+class AlbaranAdmin(BaseAdmin, ImportExportModelAdmin):
     form = AlbaranForm
-    list_display = ('codigo', 'get_cliente', 'fecha_emision', 'get_fecha_programada', 'fecha_ejecucion')
+    list_display = ('codigo', 'get_cliente', 'fecha_emision', 'get_fecha_programada', 'fecha_ejecucion', 'acciones_pdf')
+    
+    # 2. Añadimos el nuevo campo a readonly_fields para verlo dentro de la ficha
+    # Lo incluimos en el fieldset de "Información General" o donde prefieras
+    readonly_fields = (
+        'codigo','display_cliente', 'display_usuario', 'display_gestor_residuos', 
+        'display_transportista', 'fecha_emision', 'display_fecha_programada', 
+        'display_pedido_info', 'acciones_pdf' # <--- Cambiado aquí
+    )
+    # list_display = ('codigo', 'get_cliente', 'fecha_emision', 'get_fecha_programada', 'fecha_ejecucion')
     exclude = ('pedido',) # Ocultamos el campo pedido para que no lo cambien
-    readonly_fields = ('codigo','display_cliente', 'display_usuario', 'display_gestor_residuos', 'display_transportista', 'fecha_emision', 'display_fecha_programada', 'display_pedido_info')
+    # readonly_fields = ('codigo','display_cliente', 'display_usuario', 'display_gestor_residuos', 'display_transportista', 'fecha_emision', 'display_fecha_programada', 'display_pedido_info')
     
     # 1. ORGANIZACIÓN POR SECCIONES (Que actúan como pestañas en temas modernos)
     fieldsets = (
@@ -274,6 +284,35 @@ class AlbaranAdmin(ImportExportModelAdmin, BaseAdmin):
     def get_fecha_programada(self, obj):
         return obj.pedido.fecha_programada
     get_fecha_programada.short_description = "Programada"
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        
+        if request.user.is_superuser:
+            return qs
+
+        try:
+            # 1. Obtenemos el perfil y la empresa de transporte
+            perfil = request.user.perfil  # O perfil_usuario según cómo lo llamaras
+            empresa = perfil.transportista
+            
+            if empresa:
+                # 2. Filtramos: el Pedido tiene un Usuario, y ese Usuario tiene un Transportista
+                # IMPORTANTE: El campo en PuntoRecogida se llama 'transportista'
+                return qs.filter(pedido__usuario__transportista=empresa)
+            
+        except Exception as e:
+            print(f"Error en el filtro de transportista: {e}")
+        
+        return qs.none()
+    
+    def has_import_permission(self, request):
+        # Solo el superusuario puede ver el botón de Importar
+        return request.user.is_superuser
+
+    # def has_export_permission(self, request):
+        # Si quieres que el transportista TAMPOCO pueda exportar a Excel:
+    #    return request.user.is_superuser
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
@@ -363,6 +402,21 @@ class AlbaranAdmin(ImportExportModelAdmin, BaseAdmin):
         return format_html("<span style='color: red;'>⚠️ Sin transportista asignado</span>")
     
     display_transportista.short_description = "Transportista"
+
+    def acciones_pdf(self, obj):
+        if not obj.id:
+            return "-"
+        
+        url_pdf = reverse('albaran_pdf_download', kwargs={'albaran_id': obj.id})
+        url_di = reverse('albaran_di_download', kwargs={'albaran_id': obj.id})
+
+        return format_html(
+            '<a class="button" href="{}" target="_blank" style="background-color:#447e9b; color:white; padding:5px 10px; border-radius:4px; margin-right:5px;">🖨️ Albarán</a>'
+            '<a class="button" href="{}" target="_blank" style="background-color:#28a745; color:white; padding:5px 10px; border-radius:4px;">📄 DI</a>',
+            url_pdf, url_di
+        )
+    
+    acciones_pdf.short_description = "Documentos"
     
     def imprimir_pdf(self, obj):
         if obj.id:
@@ -374,6 +428,18 @@ class AlbaranAdmin(ImportExportModelAdmin, BaseAdmin):
         return "-"
     
     imprimir_pdf.short_description = "Acciones"
+
+    def imprimir_di(self, obj):
+        if obj.id:
+            url = reverse('albaran_di_download', args=[obj.id])
+            return format_html(
+                '<a class="button" href="{}" target="_blank" style="background-color:#28a745; color:white; padding:5px 10px; border-radius:4px;">📄 DI</a>', 
+                url
+            )
+        return "-"
+    
+    imprimir_di.short_description = "Acciones"
+
 
     def has_add_permission(self, request):
         # Solo los superusuarios podrían crear un albarán a mano

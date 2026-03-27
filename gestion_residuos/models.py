@@ -8,6 +8,13 @@ class Perfil(models.Model):
     
     # Campo extra que me pediste
     telefono = models.CharField(max_length=20, blank=True, null=True, verbose_name="Teléfono")
+    transportista = models.ForeignKey(
+        'logistica.Transportista', 
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True, 
+        related_name='usuarios_asignados'
+    )
 
     class Meta:
         verbose_name = "Perfil de Usuario"
