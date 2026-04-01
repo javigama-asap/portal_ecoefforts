@@ -27,7 +27,7 @@ media/              # Archivos subidos por usuarios (fotos, PDFs)
 Icon
 ._*
 
-# --- IDEs ---
+# --- IDE ---
 .vscode/
 .idea/
 *.swp
