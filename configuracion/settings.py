@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'ajustes',
     'logistica',
     'operativa',
+    'facturacion',
     'gestion_residuos',
 ]
 
@@ -217,6 +218,8 @@ JAZZMIN_SETTINGS = {
         "operativa.servicio",
         "operativa.pedido",
         "operativa.albaran",
+        "facturacion",
+        "facturacion.factura",
         "gestion_residuos",  
     ],
     "icons": {
@@ -243,6 +246,8 @@ JAZZMIN_SETTINGS = {
         "operativa.servicio": "fas fa-concierge-bell",
         "operativa.pedido": "fas fa-file-invoice",
         "operativa.albaran": "fas fa-file-signature",
+        "facturacion": "fas fa-file-invoice-dollar",
+        "facturacion.factura": "fas fa-file-invoice-dollar",
         "gestion_residuos": "fas fa-shuttle-van",
     },
 
